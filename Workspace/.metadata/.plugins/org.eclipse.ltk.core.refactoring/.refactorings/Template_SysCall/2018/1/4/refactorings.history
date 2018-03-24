@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;Template_SysCall/src/Template_SysCall.c&apos; to &apos;Generla.c&apos;" description="Rename resource &apos;Template_SysCall.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Template_SysCall.c" name="Generla.c" stamp="1517158711100" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;Template_SysCall/src/Generla.c&apos; to &apos;General.c&apos;" description="Rename resource &apos;Generla.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Generla.c" name="General.c" stamp="1517158735861" updateReferences="true"/>
+</session>

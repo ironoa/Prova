@@ -1,0 +1,23 @@
+17:15:42 **** Incremental Build of configuration Debug for project Template_UDP ****
+make all 
+Building file: ../src/UDP_Server.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/UDP_Server.d" -MT"src/UDP_Server.o" -o "src/UDP_Server.o" "../src/UDP_Server.c"
+../src/UDP_Server.c: In function ‘main’:
+../src/UDP_Server.c:107:74: warning: pointer targets in passing argument 6 of ‘recvfrom’ differ in signedness [-Wpointer-sign]
+   if (recvfrom(sd, req, sizeof(Request), 0, (struct sockaddr *)&cliaddr, &len)<0)//Ricezione
+                                                                          ^
+In file included from ../src/UDP_Server.c:19:0:
+/usr/include/x86_64-linux-gnu/sys/socket.h:174:16: note: expected ‘socklen_t * restrict {aka unsigned int * restrict}’ but argument is of type ‘int *’
+ extern ssize_t recvfrom (int __fd, void *__restrict __buf, size_t __n,
+                ^
+Finished building: ../src/UDP_Server.c
+ 
+Building target: Template_UDP
+Invoking: GCC C Linker
+gcc  -o "Template_UDP"  ./src/UDP_Server.o   
+Finished building target: Template_UDP
+ 
+
+17:15:44 Build Finished (took 1s.558ms)
+

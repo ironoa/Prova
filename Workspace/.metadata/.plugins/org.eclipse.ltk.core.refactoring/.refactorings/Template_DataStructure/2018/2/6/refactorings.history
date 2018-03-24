@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Template_DataStructure/src/Struttura_MatrixMalloc.c&apos; to &apos;Struttura_Matrix_Malloc2Livelli.c&apos;" description="Rename resource &apos;Struttura_MatrixMalloc.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Struttura_MatrixMalloc.c" name="Struttura_Matrix_Malloc2Livelli.c" stamp="1518022565136" updateReferences="true"/>
+</session>

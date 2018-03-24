@@ -1,0 +1,15 @@
+12:34:41 **** Build of configuration Debug for project Template_DataStructure ****
+make all 
+Building file: ../src/Struttura_Matrix_Malloc2Livelli.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Struttura_Matrix_Malloc2Livelli.d" -MT"src/Struttura_Matrix_Malloc2Livelli.o" -o "src/Struttura_Matrix_Malloc2Livelli.o" "../src/Struttura_Matrix_Malloc2Livelli.c"
+Finished building: ../src/Struttura_Matrix_Malloc2Livelli.c
+ 
+Building target: Template_DataStructure
+Invoking: GCC C Linker
+gcc  -o "Template_DataStructure"  ./src/Main.o ./src/Struttura_Matrix_Malloc2Livelli.o ./src/Struttura_statica_automatica.o   
+Finished building target: Template_DataStructure
+ 
+
+12:34:49 Build Finished (took 8s.376ms)
+

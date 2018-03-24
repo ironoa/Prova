@@ -1,0 +1,20 @@
+/*
+ ============================================================================
+ Name        : Template_Z_C_IO.c
+ Author      : Alessio
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Gestione file
+ ============================================================================
+ */
+
+//ovviamente non sono necessari tutti questi include, da potare poi quando piu esperto
+#include <stdio.h> //fondamentale di sicuro
+#include <stdlib.h>
+#include <unistd.h> //sys call, per esempio read e getpid
+#include <fcntl.h> //gestione file, es O_WRONLY
+#include <string.h> //metodi per le stringhe
+#include <dirent.h> //directory operations
+
+#define MAX_STRING_LENGTH 256
+#define LINE_LENGTH 128

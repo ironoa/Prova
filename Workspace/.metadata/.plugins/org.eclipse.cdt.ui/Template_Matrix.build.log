@@ -1,0 +1,15 @@
+12:36:40 **** Incremental Build of configuration Debug for project Template_Matrix ****
+make all 
+Building file: ../src/mainStrassenNxM.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/mainStrassenNxM.d" -MT"src/mainStrassenNxM.o" -o "src/mainStrassenNxM.o" "../src/mainStrassenNxM.c"
+Finished building: ../src/mainStrassenNxM.c
+ 
+Building target: Template_Matrix
+Invoking: GCC C Linker
+gcc  -o "Template_Matrix"  ./src/mainStrassenNxM.o ./src/matrix.o   -lm
+Finished building target: Template_Matrix
+ 
+
+12:36:44 Build Finished (took 4s.100ms)
+

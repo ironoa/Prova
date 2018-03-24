@@ -1,0 +1,26 @@
+17:32:21 **** Incremental Build of configuration Debug for project Template_TCP ****
+make all 
+Building file: ../src/TCP_Server.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/TCP_Server.d" -MT"src/TCP_Server.o" -o "src/TCP_Server.o" "../src/TCP_Server.c"
+../src/TCP_Server.c: In function ‘main’:
+../src/TCP_Server.c:110:60: warning: pointer targets in passing argument 3 of ‘accept’ differ in signedness [-Wpointer-sign]
+   if((conn_sd=accept(listen_sd,(struct sockaddr *)&cliaddr,&len))<0){
+                                                            ^
+In file included from ../src/TCP_Server.c:23:0:
+/usr/include/x86_64-linux-gnu/sys/socket.h:243:12: note: expected ‘socklen_t * restrict {aka unsigned int * restrict}’ but argument is of type ‘int *’
+ extern int accept (int __fd, __SOCKADDR_ARG __addr,
+            ^
+../src/TCP_Server.c:42:18: warning: unused variable ‘host’ [-Wunused-variable]
+  struct hostent *host;
+                  ^
+Finished building: ../src/TCP_Server.c
+ 
+Building target: Template_TCP
+Invoking: GCC C Linker
+gcc  -o "Template_TCP"  ./src/TCP_Server.o   
+Finished building target: Template_TCP
+ 
+
+17:32:23 Build Finished (took 1s.623ms)
+

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Template_DataStructure/src/Template_DataStructure.c&apos; to &apos;General.c&apos;" description="Rename resource &apos;Template_DataStructure.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Template_DataStructure.c" name="General.c" stamp="1517159649042" updateReferences="true"/>
+</session>

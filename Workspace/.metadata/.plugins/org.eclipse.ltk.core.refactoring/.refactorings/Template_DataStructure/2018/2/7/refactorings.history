@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Template_DataStructure/src/22-varGlobaliStatiche.pdf&apos; to &apos;varGlobaliStatiche.pdf&apos;" description="Rename resource &apos;22-varGlobaliStatiche.pdf&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/22-varGlobaliStatiche.pdf" name="varGlobaliStatiche.pdf" stamp="1518621102357" updateReferences="true"/>
+</session>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Template_Z_C_IO/src/Template_Z_C_IO.c&apos; to &apos;Utils_File&amp;Stringhe.c&apos;" description="Rename resource &apos;Template_Z_C_IO.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Template_Z_C_IO.c" name="Utils_File&amp;Stringhe.c" stamp="1517160347457" updateReferences="true"/>
+</session>

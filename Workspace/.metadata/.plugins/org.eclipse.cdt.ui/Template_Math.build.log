@@ -1,0 +1,15 @@
+17:16:21 **** Incremental Build of configuration Debug for project Template_Math ****
+make all 
+Building file: ../src/Main.c
+Invoking: GCC C Compiler
+gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Main.d" -MT"src/Main.o" -o "src/Main.o" "../src/Main.c"
+Finished building: ../src/Main.c
+ 
+Building target: Template_Math
+Invoking: GCC C Linker
+gcc  -o "Template_Math"  ./src/Main.o ./src/Template_Math.o   -lm
+Finished building target: Template_Math
+ 
+
+17:16:23 Build Finished (took 1s.656ms)
+

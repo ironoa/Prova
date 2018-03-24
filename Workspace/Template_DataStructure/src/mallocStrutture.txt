@@ -1,0 +1,13 @@
+1) allocare dinamicamente memoria quando una struttura contiene puntatori
+2) allocare dinamicamente solo ai campi interni puntatori, quindi alle stringhe
+3) concettualmente più giusto, la struttura è ben fatta: il campo puntatore punterà ad un'area di memoria ad esso completamente DEDICATA.
+4) CHIESTO AL PROF: fai quello che vuoi, strutture o no è equivalente e si può sempre fare
+
+
+NOTA BENE:
+Se all'interno di un blocco, per esempio funzione, dichiaro un puntatore, per esempio stringa....
+alla fine del blocco tale puntatore verrà perso e non potrò ritornarlo, a meno che non sia static.
+Senza static stringa sarebbe una semplice variabile locale (PUNTATORE),
+deallocata quindi alla fine di questa funzione ==> non avrebbe senso ritornarla essendo un puntatore.
+==> con static oltre a cambiarne la visibilità, che diventa globale, ne modifico
+anche il tempo di vita, che persiste alla chiusura di questa funzione

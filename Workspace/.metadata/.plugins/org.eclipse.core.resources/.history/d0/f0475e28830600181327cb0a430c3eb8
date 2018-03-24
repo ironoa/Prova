@@ -1,0 +1,582 @@
+/*
+ ============================================================================
+ Name        : Template_Z_C_IO.c
+ Author      : Alessio
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Gestione file con system call
+ ============================================================================
+ */
+
+//ovviamente non sono necessari tutti questi include, da potare poi quando piu esperto
+#include <stdio.h> //fondamentale di sicuro
+#include <stdlib.h>
+#include <unistd.h> //sys call, per esempio read e getpid
+#include <fcntl.h> //gestione file, es O_WRONLY
+#include <string.h> //metodi per le stringhe
+
+#define MAX_STRING_LENGTH 256
+#define LINE_LENGTH 128
+
+
+
+
+/*******************************APERTURA FILE*******************************/
+void openFile(){
+
+	//posso utilizzare una cambinazine di vari flags
+	int fd = open("fileName.txt", O_RDONLY | O_WRONLY|O_CREAT|O_TRUNC,00640);
+	/*oppure un flag specifico
+	 *
+	 * fd = open("filename", O_RDONLY);
+	 */
+
+	if (fd < 0){
+		perror("P0: Impossibile creare/aprire il file");
+		exit(EXIT_FAILURE);
+	}
+
+	//utilizzo
+
+	close(fd);
+}
+/*********************************************************************/
+
+
+
+
+/********* Verifico l'esistenza del file ************/
+void verifyFile(){
+
+	int fd_sorg;
+	if((fd_sorg=open("filename.txt", O_RDONLY))<0){
+		perror("open file sorgente");
+	}
+
+	//utilizzo
+
+	close(fd_sorg);
+
+}
+/*********************************************************************/
+
+
+
+
+/**********FILTRO a CARATTERE,lettura da FILE*********************************/
+void filterCar_file(){
+	char fileName[] = "filename.txt";
+	char err[MAX_STRING_LENGTH];
+
+	//apertura file
+	int fd = open(fileName, O_RDONLY);
+	if (fd < 0){
+		perror("P0: Impossibile creare/aprire il file");
+		exit(EXIT_FAILURE);
+	}
+
+	int nread=0;
+	char read_char;
+	while( ( nread = read(fd, &read_char, sizeof(char)) ) != 0  ) /* Fino ad EOF*/{
+		if (nread < 0){
+			sprintf(err,"(PID %d) impossibile leggere dal file %s", getpid(), fileName);
+			perror(err);
+			close(fd);
+			exit(EXIT_FAILURE);
+		}
+
+		//utilizzo del carattere letto salvato in read_char
+	}
+
+	close(fd);
+}
+/**************************************************/
+
+
+/************** FILTRO A CARATTERE DA STDIN con SYSTEM CALL**************************/
+void filterCar_stdIn(){
+	char err[MAX_STRING_LENGTH];
+	char c;
+
+	int nread=0;
+	while( ( nread = read(0, &c, sizeof(char)) ) > 0 ) /* Fino ad EOF*/{
+		if (nread < 0){
+			sprintf(err,"(PID %d) impossibile leggere dal file ", getpid());
+			perror(err);
+			exit(EXIT_FAILURE);
+		}
+
+		//elaboro
+	}
+}
+/**************************************************************/
+
+
+
+/****************FILTRO A CARATTERE da stdin****************************
+ *
+ * ESEMPIO: FILTRO PREFIX, gestione a CARATTERE
+ *
+ *
+ */
+void filtro(){
+	char err[MAX_STRING_LENGTH];
+	char fileName[] = "filename.txt";
+
+	//apertura file
+	int fd = open(fileName, O_RDONLY);
+	if (fd < 0){
+		perror("P0: Impossibile aprire il file");
+		exit(EXIT_FAILURE);
+	}
+
+	int lPrefix=0;//lunghezza della striga base di confronto
+	char prefix[MAX_STRING_LENGTH];//prefisso|FILTRO, da acquisire
+	char cmp[MAX_STRING_LENGTH];// banco da lavoro temporaneo, conterrà ciò che va comparato con il prefix
+	int i=0;
+	int daStampare=0; //boolean
+	char read_char;
+
+	int nread=0;
+	while( ( nread = read(fd, &read_char, sizeof(char)) ) != EOF) /* Fino ad EOF*/{
+		if (nread < 0){
+			sprintf(err,"(PID %d) impossibile leggere dal file %s", getpid(), fileName);
+			perror(err);
+			close(fd);
+			exit(EXIT_FAILURE);
+		}
+
+		i=0;//testina scorrevole
+		daStampare=0;
+		while(read_char!='\n'){//gestione linea
+
+			if(i<lPrefix){
+				//ok la considero
+				cmp[i]=read_char;
+				i++;
+			}
+
+			if(i==lPrefix){
+				//caso che va gestito
+				cmp[i]='\0';
+				i++;
+				if(!strcmp(cmp,prefix)){
+					//stringhe uguali
+					daStampare=1;
+					printf("Trovato un buon match: %s",cmp);
+				}
+			}
+			else if(daStampare){
+				printf("%c",read_char);
+			}
+
+			nread = read(fd,&read_char,sizeof(char));
+			if(nread == EOF){
+				break;
+			}
+			else if (nread < 0){
+				sprintf(err,"(PID %d) impossibile leggere dal file %s", getpid(), fileName);
+				perror(err);
+				close(fd);
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		if(daStampare) //se è stato stampato qualcosa....
+			printf("\n");
+	}//while EOF
+
+	close(fd);
+}
+/*********************************************/
+
+
+
+
+
+int main(int argc, char* argv[]){
+
+	char* err[MAX_STRING_LENGTH];
+	//atoi(riga)
+	exit(EXIT_SUCCESS);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/************** FILTRO, LETTURA FORMATTATA****************************/
+	/*
+	 * ESEMPIO: LETTURA DA STDIN di 2 interi
+	 */
+	int ok=0,num1;
+	char c;
+	char okstr[256];//LINE_LENGTH=256, stringa bidone
+	printf("Primo operando (intero), EOF per terminare: ");
+	while ((ok=scanf("%i", &num1)) != EOF ){
+		if( ok != 1){
+			/* Problema nell'implementazione della scanf. Se l'input contiene PRIMA
+			 * dell'intero altri caratteri la testina di lettura si blocca sul primo carattere
+			 * (non intero) letto. Ad esempio: ab1292\n
+			 *								  ^     La testina si blocca qui
+			 * Bisogna quindi consumare tutto il buffer in modo da sbloccare la testina.
+			 */
+			do {c=getchar(); printf("%c ", c);}
+			while (c!= '\n');
+			printf("Inserire il Primo operando (intero), EOF per terminare: ");
+			continue;
+		}
+		// quando arrivo qui l'input e' stato letto correttamente
+
+		//gestisco ed elaboro
+
+		/*******CONSUMO il new line, ed eventuali altri caratteri************/
+		// immessi nella riga dopo l'intero letto
+		gets(okstr);
+		printf("Stringa letta: %s\n", okstr);
+		/*********************************************/
+
+		//posso ora leggere ancora
+		int num2;
+		printf("Inserire secondo operando (intero): ");
+		while (scanf("%i", &num2) != 1){
+			do{c=getchar(); printf("%c ", c);}
+			while (c!= '\n');
+			printf("Secondo operando (intero): ");
+		}
+		gets(okstr);
+		printf("Stringa letta: %s\n", okstr);
+
+		printf("Primo operando (intero), EOF per terminare: ");
+	}
+	/***********************************************************/
+
+}
+
+
+/********************************************************/
+/*void conta(int fd, int * caratteri, int * parole, int * linee)
+ *		^		^------------^-------------^----- puntatori a risultati
+ *		'---- descrittore, già controllato, del file
+ * Per controllare l'esatta esecuzione della funzione, è possibile utilizzare l'utile comando Linux 'wc'.
+ * 	'man wc' sul terminale per info.
+ */
+void conta(int fd, int * caratteri, int * parole, int * linee)
+{
+	*caratteri = 0;
+	*parole = 0;
+	*linee = 0;
+
+	/* tipoChar = intero che discrimina tra carattere e separatore:
+	 *	0 = separatore;
+	 *	1 = carattere.*/
+	int tipoChar = 0;
+	int i = 0, nread;
+	char read_char, err[LINE_LENGTH];
+
+	while((nread = read(fd, &read_char, sizeof(char))) != 0 ){
+		if (nread < 0){
+			sprintf(err,"(PID %d) impossibile leggere dal file", getpid());
+			perror(err); exit(0);
+		}
+		else{
+			*caratteri=*caratteri+1;
+			//carattere letto è un separatore
+			if(read_char == ' ' || read_char == '\r')
+				tipoChar = 0;
+			else if(read_char == '\n'){ //separatore (fine linea)
+				*linee=*linee+1;
+				tipoChar = 0;
+			}
+			else{ //carattere
+				/* Il carattere di prima può essere
+				 * 	Separatore = separatore e carattere --> inizia una nuova parola;
+				 *	Carattere = carattere e carattere --> non faccio niente.*/
+				if (tipoChar == 0){
+					*parole=*parole+1;
+				}
+				tipoChar = 1;
+			}
+		}
+	}
+}
+/**********************************************************************/
+
+/***********SOLUZIONE DEFINITIVA, CONTA LE OCCORRENZE IN UN FILE*********************************************/
+void conta(int fd, int * caratteri, int * parole, int * linee, char *parola, int * occorrenze){
+	*caratteri = 0;
+	*parole = 0;
+	*linee = 0;
+	*occorrenze = 0;
+
+	int DIM=100;
+	int nread, index;
+	char car;
+	char buffer;
+	char stringBuffer [DIM];
+
+	while (1){
+		index=0;
+		do{	//leggo a caratteri (spazi e \n iniziali)
+			nread = read(fd, &car, 1);
+			*caratteri = *caratteri + 1;
+			if (car == '\n') //new line
+				*linee = *linee + 1;
+			stringBuffer[index]=car;
+			index=index+1;
+		} while (((car == ' ') || (car == '\n')) && (nread > 0));
+
+		if (nread <= 0){
+			*caratteri = *caratteri - 1;
+			return;
+		}
+		else buffer = car;
+
+		while (1){ //leggo a caratteri tutto il resto
+			nread = read(fd, &car, 1);
+			if (nread > 0){
+				*caratteri = *caratteri + 1;
+				buffer = car;
+
+				stringBuffer[index]=car;
+				index=index+1;
+
+			}
+			else return;
+			if ((buffer == ' ') || (buffer == '\n')){
+				if (buffer == '\n')
+					*linee = *linee + 1;
+				*parole = *parole + 1;
+				if (strstr(stringBuffer,parola)!=NULL){
+					printf("DEBUG: print occurrence %s \n", stringBuffer);
+					*occorrenze = *occorrenze +1;
+				}
+				memset(stringBuffer, 0, sizeof(stringBuffer));
+				index=0;
+				break;
+			}
+		}
+	}
+}
+
+/********************************************************/
+
+
+/********************************************************/
+/* funzione che conta i file presenti in una directory
+ *
+ */
+int conta_file (char *name){
+	DIR *dir;
+	struct dirent * dd;
+	int count = 0;
+	dir = opendir (name);
+	while ((dd = readdir(dir)) != NULL){
+		printf("Trovato il file %s\n", dd-> d_name);
+		count++;
+	}
+	printf("Numero totale di file %d\n", count);
+	closedir (dir);
+	return count;
+}
+/********************************************************/
+
+
+/********************************************************/
+/* funzione che conta i file presenti in una directory, FILTRANDOLI PER: dimensione e prefix
+ *
+ */
+int conta_file_filtro(char *direttorio,char *suffisso, int soglia){
+	int result = 0;
+	DIR* dir;
+	struct dirent * dd;
+	int i, fd_file;
+	off_t fileSize;
+	char stringBuffer[strlen(suffisso)+1];
+
+	result = -1;
+
+	printf("Richiesto direttorio %s\n", direttorio);
+	if ((dir = opendir(direttorio)) == NULL)
+		return (&result);
+
+	result = 0;
+	while ((dd = readdir(dir)) != NULL){
+
+		fd_file = open(dd->d_name, O_RDONLY);
+		if (fd_file < 0){
+			printf("File inesistente\n");
+			return (&result);
+		}
+		fileSize=lseek(fd_file,0L,SEEK_END);
+		memcpy(stringBuffer, &dd->d_name[0], strlen(suffisso));
+		stringBuffer[strlen(suffisso)+1] = '\0';
+		if(strstr(stringBuffer,suffisso) != NULL)
+			if (fileSize>=soglia){
+				printf("DEBUG: candidate file size %ld\n", fileSize);
+				result++;
+			}
+	}
+	printf("Numero totale di file nel direttorio richiesto %d\n", result);
+
+	return (result);
+}
+
+/********************************************************/
+
+
+
+/**********CONTA (SOLO) LE OCCORRENZE IN UN FILE*********************************************/
+void conta(int fd, int * occorrenze, char *parola){
+	*occorrenze = 0;
+
+	int DIM=100;
+	int nread, index;
+	char car;
+	char buffer;
+	char stringBuffer [DIM];
+
+	while (1){
+
+		do{	//leggo a caratteri (spazi e \n iniziali)
+			index=0;
+			nread = read(fd, &car, 1);
+			stringBuffer[index]=car;
+			index=index+1;
+		} while (((car == ' ') || (car == '\n')) && (nread > 0));
+
+		if (nread <= 0){
+			return;
+		}
+		else buffer = car;//si parte!
+
+		while (1){ //leggo a caratteri tutto il resto
+			nread = read(fd, &car, 1);
+			if (nread > 0){
+				buffer = car;
+				stringBuffer[index]=car;
+				index=index+1;
+
+			}
+			else return; //errore o fine FILE
+
+			if ((buffer == ' ') || (buffer == '\n')){
+				stringBuffer[index-1]='\0';
+				if (strcmp(stringBuffer,parola)==0){
+					//parola trovata
+					printf("DEBUG: print occurrence %s \n", stringBuffer);
+					*occorrenze = *occorrenze +1;
+					return;//mi basta 1 occorrenza per uscire
+				}
+				memset(stringBuffer, 0, sizeof(stringBuffer));
+				index=0;
+			}
+		}
+	}
+}
+/********************************************************/
+
+
+/******************TRASFERISCE LE LINEE CON ALMENO 1 OCCORRENZA PRESENTE**************************************/
+void trasferisciLinee(int fd, int connfd, char*parola){
+
+
+	int DIM=100;
+	int nread, index;
+	char car;
+	char buffer;
+	char stringBuffer [DIM];//da confrontare con parola occerrenza
+
+	char linea[DIM];
+	int daInviare=1;//0 significa invia
+
+	while (1){
+		index=0;
+		int i=0;
+		do{	//leggo a caratteri (spazi e \n iniziali)
+			nread = read(fd, &car, 1);
+			stringBuffer[index]=car;
+			index=index+1;
+		} while (((car == ' ') || (car == '\n')) && (nread > 0));
+
+		if (nread <= 0){//c'è un problema e ritorno
+			perror("c'e un problema");
+			return;
+		}
+		else{
+			buffer = car;//si parte!
+			linea[i]=car;
+			i++;
+		}
+
+		while (1){ //leggo a caratteri le linee
+			nread = read(fd, &car, 1);
+			if (nread > 0){
+				buffer = car;
+				linea[i]=car;
+				stringBuffer[index]=car;
+				index=index+1;
+				i++;
+
+			}
+			else return; //errore o fine FILE
+
+			//printf("DEBUG 1, %s, %c\n",stringBuffer,car);
+			if ((buffer == ' ') || (buffer == '\n')){//fine parola o fine linea
+				stringBuffer[index-1]='\0';
+				if (strcmp(stringBuffer,parola)==0){
+					//parola trovata
+					printf("DEBUG: print occurrence %s \n", stringBuffer);
+					daInviare=0;//l'intera linea sara da inviare
+				}
+				memset(stringBuffer, 0, sizeof(stringBuffer));
+				index=0;
+				if (buffer == '\n'){
+					//invio linea e ricomincio
+					if(daInviare==0){
+						//invio la linea
+						int j=0;
+						for(j=0;j<i;j++){
+							if (write(connfd, &linea[j], 1)<0 )
+							{perror("write"); break;}
+
+						}
+						printf("LINEA INVIATA CON SUCCESSO!");
+					}
+					i=0;
+					memset(linea, 0, sizeof(linea));
+					daInviare=1;
+				}
+
+			}
+		}
+	}
+}
+
+
+/********************************************************/
+
+
+void argomentsError(int argc,char **argv){
+	if(argc!=2){
+		fprintf(stderr,"Numero di argomenti non valido\n");
+		print_usage(argv[0]);
+		exit(EXIT_FAILURE);
+	}
+}
+void print_usage(char *progName){
+	fprintf(stderr, "Usage:\n\t%s fileName\n",progName);
+}

@@ -1,0 +1,10 @@
+17:13:11 **** Incremental Build of configuration Debug for project Template_2mat ****
+make all 
+Building target: Template_2mat
+Invoking: GCC C Linker
+gcc  -o "Template_2mat"  ./src/Template_2mat.o ./src/Template_Math.o   -lm
+Finished building target: Template_2mat
+ 
+
+17:13:12 Build Finished (took 1s.543ms)
+
